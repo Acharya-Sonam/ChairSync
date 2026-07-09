@@ -43,7 +43,7 @@ function Dashboard() {
                     return (
                         <div 
                             key={chair.id} 
-                            className="card glass-panel"
+                            className={`card glass-panel ${chair.isOccupied ? 'pulse-red' : ''}`}
                             style={{
                                 borderTop: chair.isOccupied ? '4px solid #e74c3c' : '4px solid #2ecc71',
                                 display: 'flex',
