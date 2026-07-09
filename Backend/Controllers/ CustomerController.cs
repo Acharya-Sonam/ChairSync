@@ -16,6 +16,14 @@ namespace Backend.Controllers
             _context = context;
         }
 
+        [HttpGet("waiting")]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetWaitingCustomers()
+        {
+            return await _context.Customers
+                .Where(c => c.Status == "Waiting")
+                .ToListAsync();
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
@@ -32,6 +40,47 @@ namespace Backend.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetCustomers), new { id = customer.Id }, customer);
+        }
+        [HttpPost("{customerId}/assign/{chairId}")]
+        public async Task<IActionResult> AssignChair(int customerId, int chairId)
+        {
+            var customer = await _context.Customers.FindAsync(customerId);
+            var chair = await _context.Chairs.FindAsync(chairId);
+
+            if (customer == null || chair == null)
+                return NotFound();
+
+            chair.IsOccupied = true;
+
+            customer.Status = "In Service";
+            customer.ChairId = chairId;
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+        [HttpPost("{customerId}/complete")]
+        public async Task<IActionResult> CompleteHaircut(int customerId)
+        {
+            var customer = await _context.Customers.FindAsync(customerId);
+
+            if (customer == null)
+                return NotFound();
+
+            if (customer.ChairId != null)
+            {
+                var chair = await _context.Chairs.FindAsync(customer.ChairId);
+
+                if (chair != null)
+                    chair.IsOccupied = false;
+            }
+
+            customer.Status = "Completed";
+            customer.ChairId = null;
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }
