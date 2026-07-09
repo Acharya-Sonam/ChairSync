@@ -11,5 +11,7 @@ namespace Backend.Data
         }
 
         public DbSet<Chair> Chairs { get; set; }
+
+        public DbSet<Customer> Customers { get; set; }
     }
 }

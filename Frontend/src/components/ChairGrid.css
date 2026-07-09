@@ -1,0 +1,23 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 180px);
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.available,
+.occupied {
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+}
+
+.available {
+    background: green;
+}
+
+.occupied {
+    background: crimson;
+}
