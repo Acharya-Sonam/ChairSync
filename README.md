@@ -14,5 +14,5 @@ ChairSync addresses this problem by providing a digital queue and chair manageme
 - **Service Status Updates**: Track a haircut's progress from waiting, to seated, to completed.
 
 ## Tech Stack
-- **Frontend**: React + Vite (Midnight Amber Custom Theme)
+- **Frontend**: React + Vite 
 - **Backend**: .NET Core (Web API)
