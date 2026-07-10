@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { customerService } from '../../services/api';
 
 const STATUS_BADGE = {
-    'Waiting':    'badge-waiting',
-    'In Service': 'badge-inservice',
-    'Completed':  'badge-completed',
+    'Waiting': 'badge-amber',
+    'In Service': 'badge-blue',
+    'Completed': 'badge-green',
 };
 
 function Customers() {
@@ -62,8 +62,8 @@ function Customers() {
             <div className="card glass-panel form-card">
                 <h2 className="section-title">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '10px', color: 'var(--accent)' }}>
-                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/>
-                        <line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="8.5" cy="7" r="4" />
+                        <line x1="20" y1="8" x2="20" y2="14" /><line x1="23" y1="11" x2="17" y2="11" />
                     </svg>
                     Add New Walk-in
                 </h2>
@@ -108,7 +108,7 @@ function Customers() {
                             {isLoading ? (
                                 <><span className="spinner-sm" /> Adding...</>
                             ) : (
-                                <><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add to Queue</>
+                                <><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg> Add to Queue</>
                             )}
                         </button>
                     </div>
