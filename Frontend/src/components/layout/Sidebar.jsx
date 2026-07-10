@@ -1,23 +1,77 @@
 import { NavLink } from "react-router-dom";
 
+const navItems = [
+    {
+        to: "/",
+        label: "Dashboard",
+        end: true,
+        icon: (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
+            </svg>
+        )
+    },
+    {
+        to: "/queue",
+        label: "Queue",
+        icon: (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" />
+                <line x1="8" y1="18" x2="21" y2="18" />
+                <line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" />
+                <line x1="3" y1="18" x2="3.01" y2="18" />
+            </svg>
+        )
+    },
+    {
+        to: "/customers",
+        label: "Customers",
+        icon: (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+        )
+    }
+];
+
 function Sidebar() {
     return (
         <div className="sidebar">
-            <div style={{ padding: '0 10px', marginBottom: '20px' }}>
-                <h2 style={{ color: 'var(--accent)', fontSize: '28px', letterSpacing: '-1px' }}>💈 ChairSync</h2>
+            {/* Logo / Brand */}
+            <div className="sidebar-brand">
+                <div className="sidebar-logo">💈</div>
+                <div>
+                    <h2 className="sidebar-title">ChairSync</h2>
+                    <p className="sidebar-subtitle">Barber Management</p>
+                </div>
             </div>
 
-            <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>
-                Dashboard
-            </NavLink>
+            <div className="sidebar-divider" />
 
-            <NavLink to="/queue" className={({ isActive }) => (isActive ? "active" : "")}>
-                Queue
-            </NavLink>
+            <nav className="sidebar-nav">
+                {navItems.map((item) => (
+                    <NavLink
+                        key={item.to}
+                        to={item.to}
+                        end={item.end}
+                        className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}
+                    >
+                        <span className="sidebar-icon">{item.icon}</span>
+                        <span>{item.label}</span>
+                    </NavLink>
+                ))}
+            </nav>
 
-            <NavLink to="/customers" className={({ isActive }) => (isActive ? "active" : "")}>
-                Customers
-            </NavLink>
+            <div className="sidebar-footer">
+                <div className="sidebar-status">
+                    <span className="status-dot" />
+                    <span>System Online</span>
+                </div>
+            </div>
         </div>
     );
 }

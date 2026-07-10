@@ -1,26 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Midnight Amber Palette */
-  --bg-color: #0f0c20;
-  --bg-panel: rgba(30, 26, 45, 0.6);
-  --bg-panel-hover: rgba(45, 40, 65, 0.8);
+  /* Aurora Glass Palette */
+  --bg-color: #0b0c10;
+  --bg-panel: rgba(18, 20, 30, 0.4);
+  --bg-panel-hover: rgba(28, 32, 48, 0.6);
   
-  --accent: #d4af37; /* Premium Gold */
-  --accent-hover: #f5b041;
-  --accent-bg: rgba(212, 175, 55, 0.15);
+  --accent: #00f2fe; /* Electric Cyan */
+  --accent-hover: #4facfe;
+  --accent-bg: rgba(0, 242, 254, 0.15);
   
-  --text: #e0e0e0;
-  --text-muted: #9e9e9e;
-  --text-dark: #121212;
+  --secondary: #4facfe; /* Neon Purple/Blue */
+  
+  --text: #f0f4f8;
+  --text-muted: #a0aec0;
+  --text-dark: #0f172a;
   
   --border: rgba(255, 255, 255, 0.08);
   --border-light: rgba(255, 255, 255, 0.15);
+  --border-glow: rgba(0, 242, 254, 0.3);
   
-  --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --shadow-lg: 0 15px 35px 0 rgba(0, 0, 0, 0.5);
+  --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 15px 35px 0 rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 20px rgba(0, 242, 254, 0.2);
 
-  --font-primary: 'Outfit', system-ui, sans-serif;
+  --font-primary: 'Inter', system-ui, sans-serif;
   
   color-scheme: dark;
   color: var(--text);
@@ -31,12 +35,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Background Animation */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  /* Premium Dark Gradient Background */
-  background: radial-gradient(circle at 10% 20%, rgb(18, 14, 33) 0%, rgb(14, 11, 24) 90%);
+  /* Deep animated Aurora background */
+  background: linear-gradient(-45deg, #0b0f19, #1a1025, #0a192f, #111827);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
   background-attachment: fixed;
   color: var(--text);
 }
@@ -50,22 +63,25 @@ body {
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
   color: var(--text);
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 p {
   margin: 0;
   color: var(--text-muted);
+  line-height: 1.6;
 }
 
 a {
   color: var(--accent);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 a:hover {
   color: var(--accent-hover);
+  text-shadow: 0 0 8px var(--accent-bg);
 }
 
 /* Scrollbar Styling for a premium feel */
@@ -77,9 +93,9 @@ a:hover {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-panel-hover);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-bg);
+  background: var(--accent-hover);
 }
