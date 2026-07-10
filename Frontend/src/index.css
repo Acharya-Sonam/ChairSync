@@ -1,92 +1,83 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
-  /* ── Aurora Glass Theme ─────────────────── */
-  --bg-base:        #07090f;       /* near-black deep navy */
-  --bg-panel:       rgba(255, 255, 255, 0.04);
-  --bg-panel-hover: rgba(255, 255, 255, 0.07);
+  /* ── Core Palette ───────────────────── */
+  --bg:             #0d1117;   /* GitHub-style near-black */
+  --bg-panel:       rgba(22, 27, 34, 0.85);
+  --bg-panel-hover: rgba(30, 37, 46, 0.9);
 
-  --accent:         #38bdf8;       /* sky-blue – calm, visible */
-  --accent-hover:   #7dd3fc;
-  --accent-bg:      rgba(56, 189, 248, 0.12);
+  --accent:         #58a6ff;   /* React-blue */
+  --accent-light:   #79c0ff;
+  --accent-glow:    rgba(88, 166, 255, 0.18);
 
-  --secondary:      #818cf8;       /* soft indigo */
+  --purple:         #bc8cff;   /* soft purple – secondary accent */
+  --green:          #3fb950;   /* success / available */
+  --red:            #f85149;   /* danger / occupied */
+  --amber:          #d29922;   /* waiting */
 
-  --text:           #e2e8f0;
-  --text-muted:     #64748b;
-  --text-dark:      #07090f;
+  --text:           #e6edf3;
+  --text-muted:     #7d8590;
+  --text-dim:       #484f58;
 
-  --border:         rgba(255, 255, 255, 0.07);
-  --border-light:   rgba(255, 255, 255, 0.12);
-  --border-glow:    rgba(56, 189, 248, 0.25);
+  --border:         rgba(255,255,255,0.08);
+  --border-strong:  rgba(255,255,255,0.13);
+  --border-accent:  rgba(88,166,255,0.35);
 
-  --shadow:    0 4px 24px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.7);
-  --shadow-glow: 0 0 24px rgba(56, 189, 248, 0.15);
+  --shadow:      0 4px 20px rgba(0,0,0,0.55);
+  --shadow-lg:   0 12px 40px rgba(0,0,0,0.75);
+  --shadow-glow: 0 0 20px rgba(88,166,255,0.2);
 
-  --font-primary: 'Inter', system-ui, sans-serif;
+  --font: 'Inter', system-ui, sans-serif;
 
   color-scheme: dark;
+  font-family: var(--font);
   color: var(--text);
-  font-family: var(--font-primary);
-  font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Background ────────────────────────────────────────────
-   One very dark base + two faint aurora "orbs" that sit
-   far in the back, so they never compete with components.
-   ──────────────────────────────────────────────────────── */
+/* ── Body & Animated Background ──────────────────────────── */
 body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  background-color: var(--bg-base);
-  color: var(--text);
+  background-color: var(--bg);
   position: relative;
 }
 
-/* Two soft, blurred aurora orbs painted in pseudo-elements */
-body::before,
-body::after {
+/* Subtle grid overlay — like React docs */
+body::before {
   content: '';
   position: fixed;
-  border-radius: 50%;
-  filter: blur(120px);
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(88,166,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(88,166,255,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Spinning React atom in the background */
+body::after {
+  content: '⚛';
+  position: fixed;
+  font-size: 700px;
+  line-height: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  animation: spinAtom 60s linear infinite;
+  color: rgba(88, 166, 255, 0.025);
   pointer-events: none;
   z-index: 0;
+  user-select: none;
+  filter: blur(2px);
 }
 
-/* Top-left indigo orb */
-body::before {
-  width: 700px;
-  height: 700px;
-  top: -200px;
-  left: -200px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
-  animation: driftA 18s ease-in-out infinite alternate;
-}
-
-/* Bottom-right sky-blue orb */
-body::after {
-  width: 600px;
-  height: 600px;
-  bottom: -150px;
-  right: -150px;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, transparent 70%);
-  animation: driftB 22s ease-in-out infinite alternate;
-}
-
-@keyframes driftA {
-  from { transform: translate(0, 0) scale(1);    }
-  to   { transform: translate(60px, 40px) scale(1.1); }
-}
-
-@keyframes driftB {
-  from { transform: translate(0, 0) scale(1);    }
-  to   { transform: translate(-50px, -30px) scale(1.08); }
+@keyframes spinAtom {
+  from { transform: translate(-50%, -50%) rotate(0deg);   }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 #root {
@@ -94,10 +85,10 @@ body::after {
   min-height: 100vh;
   width: 100%;
   position: relative;
-  z-index: 1; /* sits above the orbs */
+  z-index: 1;
 }
 
-/* ── Base Typography ────────────────────────── */
+/* ── Typography ───────────────────────── */
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
   color: var(--text);
@@ -105,29 +96,15 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 
-p {
-  margin: 0;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
+p { margin: 0; color: var(--text-muted); line-height: 1.6; }
+a { color: var(--accent); text-decoration: none; transition: color .25s; }
+a:hover { color: var(--accent-light); }
 
-a {
-  color: var(--accent);
-  text-decoration: none;
-  transition: color 0.25s ease;
-}
-
-a:hover {
-  color: var(--accent-hover);
-}
-
-/* ── Scrollbar ──────────────────────────────── */
+/* ── Scrollbar ────────────────────────── */
 ::-webkit-scrollbar       { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.12);
   border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
-}
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
