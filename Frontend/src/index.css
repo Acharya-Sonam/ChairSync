@@ -1,31 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Aurora Glass Palette */
-  --bg-color: #0b0c10;
-  --bg-panel: rgba(18, 20, 30, 0.4);
-  --bg-panel-hover: rgba(28, 32, 48, 0.6);
-  
-  --accent: #00f2fe; /* Electric Cyan */
-  --accent-hover: #4facfe;
-  --accent-bg: rgba(0, 242, 254, 0.15);
-  
-  --secondary: #4facfe; /* Neon Purple/Blue */
-  
-  --text: #f0f4f8;
-  --text-muted: #a0aec0;
-  --text-dark: #0f172a;
-  
-  --border: rgba(255, 255, 255, 0.08);
-  --border-light: rgba(255, 255, 255, 0.15);
-  --border-glow: rgba(0, 242, 254, 0.3);
-  
-  --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 15px 35px 0 rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px rgba(0, 242, 254, 0.2);
+  /* ── Aurora Glass Theme ─────────────────── */
+  --bg-base:        #07090f;       /* near-black deep navy */
+  --bg-panel:       rgba(255, 255, 255, 0.04);
+  --bg-panel-hover: rgba(255, 255, 255, 0.07);
+
+  --accent:         #38bdf8;       /* sky-blue – calm, visible */
+  --accent-hover:   #7dd3fc;
+  --accent-bg:      rgba(56, 189, 248, 0.12);
+
+  --secondary:      #818cf8;       /* soft indigo */
+
+  --text:           #e2e8f0;
+  --text-muted:     #64748b;
+  --text-dark:      #07090f;
+
+  --border:         rgba(255, 255, 255, 0.07);
+  --border-light:   rgba(255, 255, 255, 0.12);
+  --border-glow:    rgba(56, 189, 248, 0.25);
+
+  --shadow:    0 4px 24px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.7);
+  --shadow-glow: 0 0 24px rgba(56, 189, 248, 0.15);
 
   --font-primary: 'Inter', system-ui, sans-serif;
-  
+
   color-scheme: dark;
   color: var(--text);
   font-family: var(--font-primary);
@@ -35,31 +35,69 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Background Animation */
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
+/* ── Background ────────────────────────────────────────────
+   One very dark base + two faint aurora "orbs" that sit
+   far in the back, so they never compete with components.
+   ──────────────────────────────────────────────────────── */
 body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  /* Deep animated Aurora background */
-  background: linear-gradient(-45deg, #0b0f19, #1a1025, #0a192f, #111827);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
-  background-attachment: fixed;
+  background-color: var(--bg-base);
   color: var(--text);
+  position: relative;
+}
+
+/* Two soft, blurred aurora orbs painted in pseudo-elements */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Top-left indigo orb */
+body::before {
+  width: 700px;
+  height: 700px;
+  top: -200px;
+  left: -200px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+  animation: driftA 18s ease-in-out infinite alternate;
+}
+
+/* Bottom-right sky-blue orb */
+body::after {
+  width: 600px;
+  height: 600px;
+  bottom: -150px;
+  right: -150px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, transparent 70%);
+  animation: driftB 22s ease-in-out infinite alternate;
+}
+
+@keyframes driftA {
+  from { transform: translate(0, 0) scale(1);    }
+  to   { transform: translate(60px, 40px) scale(1.1); }
+}
+
+@keyframes driftB {
+  from { transform: translate(0, 0) scale(1);    }
+  to   { transform: translate(-50px, -30px) scale(1.08); }
 }
 
 #root {
   display: flex;
   min-height: 100vh;
   width: 100%;
+  position: relative;
+  z-index: 1; /* sits above the orbs */
 }
 
+/* ── Base Typography ────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
   color: var(--text);
@@ -76,26 +114,20 @@ p {
 a {
   color: var(--accent);
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: color 0.25s ease;
 }
 
 a:hover {
   color: var(--accent-hover);
-  text-shadow: 0 0 8px var(--accent-bg);
 }
 
-/* Scrollbar Styling for a premium feel */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+/* ── Scrollbar ──────────────────────────────── */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-hover);
+  background: var(--accent);
 }
