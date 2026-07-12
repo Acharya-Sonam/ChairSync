@@ -99,7 +99,7 @@
     height: 100vh;
     position: sticky;
     top: 0;
-    background: var(--surface);
+    background: var(--sidebar-bg); /* Distinct side panel color */
     border-right: 1px solid var(--border-muted);
     display: flex;
     flex-direction: column;
@@ -470,6 +470,25 @@
         box-shadow: 0 2px 6px rgba(47,129,247,0.3);
     }
 
+/* CTA button variant used for Add to Queue to improve contrast */
+.btn-cta {
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-dark) 100%);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 6px 18px rgba(4,122,116,0.22);
+}
+
+    .btn-cta:hover:not(:disabled) {
+        background: linear-gradient(90deg, var(--accent) 0%, var(--accent-dark) 100%);
+        box-shadow: 0 10px 24px rgba(4,122,116,0.28);
+        transform: translateY(-2px);
+    }
+
+    .btn-cta:disabled {
+        background: linear-gradient(90deg, var(--accent-muted), rgba(4,122,116,0.04));
+        color: rgba(255,255,255,0.7);
+    }
+
 /* Secondary */
 .btn-secondary {
     background: var(--surface-2);
@@ -810,13 +829,14 @@
 
 .chair-card {
     background: var(--surface);
-    border: 1px solid var(--border-muted);
+    border: 1px solid var(--border);
     border-radius: var(--r-lg);
     padding: var(--sp-4) var(--sp-5);
     display: flex;
     flex-direction: column;
     gap: var(--sp-3);
     transition: all var(--t-slow);
+    box-shadow: var(--shadow-sm);
 }
 
     .chair-card:hover {
@@ -964,17 +984,17 @@
     flex-direction: column;
     gap: var(--sp-3);
     padding: var(--sp-4) var(--sp-5);
-    background: var(--surface);
-    border: 1px solid var(--border-muted);
-    border-left: 3px solid var(--amber);
+    background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+    border: 1px solid rgba(30,30,30,0.04);
+    border-left: 6px solid var(--accent);
     border-radius: var(--r-lg);
     transition: all var(--t);
+    box-shadow: 0 8px 24px rgba(26, 26, 26, 0.06);
 }
 
     .queue-item:hover {
-        border-color: var(--border);
-        border-left-color: var(--amber);
-        box-shadow: var(--shadow-sm);
+        transform: translateY(-4px);
+        box-shadow: var(--shadow);
     }
 
 .queue-item-row {
@@ -999,7 +1019,7 @@
 .q-name {
     font-size: 14px;
     font-weight: 700;
-    color: var(--text);
+    color: var(--text); /* slightly stronger for contrast */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1013,10 +1033,10 @@
 .q-token {
     font-size: 13px;
     font-weight: 700;
-    color: var(--blue);
+    color: var(--accent-dark);
     white-space: nowrap;
-    background: var(--blue-muted);
-    border: 1px solid rgba(88,166,255,0.2);
+    background: linear-gradient(90deg, rgba(14,165,164,0.06), rgba(14,165,164,0.02));
+    border: 1px solid rgba(14,165,164,0.12);
     padding: 2px 9px;
     border-radius: var(--r-sm);
 }
@@ -1051,8 +1071,8 @@
 }
 
     .chair-status-pill.available {
-        border-color: rgba(63,185,80,0.2);
-        background: rgba(63,185,80,0.04);
+        border-color: rgba(14,165,164,0.18);
+        background: rgba(14,165,164,0.04);
     }
 
     .chair-status-pill.occupied {
@@ -1254,7 +1274,7 @@
 
 /* Glass panel effect (used alongside .card) */
 .glass-panel {
-    background: rgba(22, 27, 34, 0.72);
+    background: var(--surface-glass);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }

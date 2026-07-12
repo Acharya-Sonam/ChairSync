@@ -90,7 +90,7 @@ function Queue() {
                     ) : (
                         <div className="queue-list">
                             {customers.map((customer, index) => (
-                                <div key={customer.id} className="queue-item card">
+                                <div key={customer.id} className="queue-item card enhanced-card">
                                     <div className="queue-item-top">
                                         <div className="queue-position">#{index + 1}</div>
                                         <div className="queue-customer-info">
@@ -144,7 +144,7 @@ function Queue() {
                         {chairs.map(chair => (
                             <div
                                 key={chair.id}
-                                className={`chair-status-card ${chair.isOccupied ? 'occupied' : 'available'}`}
+                                className={`chair-card ${chair.isOccupied ? 'occupied' : 'available'}`}
                             >
                                 <div className="chair-status-icon">
                                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -15,9 +15,13 @@
 }
 
 .available {
-    background: green;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+    box-shadow: 0 8px 20px rgba(4, 122, 116, 0.16);
+    border: 1px solid rgba(4, 122, 116, 0.10);
 }
 
 .occupied {
-    background: crimson;
+    background: linear-gradient(135deg, #ff6b6b 0%, #c22b2b 100%);
+    box-shadow: 0 8px 20px rgba(194, 43, 43, 0.18);
+    border: 1px solid rgba(160, 30, 30, 0.12);
 }

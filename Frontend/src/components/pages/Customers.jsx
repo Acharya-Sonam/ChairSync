@@ -72,7 +72,7 @@ function Customers() {
                         <label className="form-label">Customer Name</label>
                         <input
                             type="text"
-                            placeholder="e.g. John Doe"
+                            placeholder="e.g. Sonam Acharya"
                             className="input-field"
                             value={newCustomer.name}
                             onChange={(e) => setNewCustomer({ ...newCustomer, name: e.target.value })}
@@ -104,7 +104,7 @@ function Customers() {
                         </select>
                     </div>
                     <div className="form-action">
-                        <button type="submit" className="btn btn-primary" disabled={isLoading} style={{ width: '100%', marginTop: '8px' }}>
+                        <button type="submit" className="btn btn-cta" disabled={isLoading} style={{ width: '100%', marginTop: '8px' }}>
                             {isLoading ? (
                                 <><span className="spinner-sm" /> Adding...</>
                             ) : (
