@@ -2,44 +2,44 @@
 
 :root {
   /* Brand */
-  --primary:       #2f81f7;
-  --primary-hover: #58a6ff;
-  --primary-muted: rgba(47, 129, 247, 0.12);
-  --primary-ring:  rgba(47, 129, 247, 0.25);
+  --primary:       #967249;
+  --primary-hover: #b08d65;
+  --primary-muted: rgba(150, 114, 73, 0.12);
+  --primary-ring:  rgba(150, 114, 73, 0.25);
 
   /* Semantic */
-  --green:         #3fb950;
-  --green-muted:   rgba(63, 185, 80, 0.12);
-  --amber:         #e3b341;
-  --amber-muted:   rgba(227, 179, 65, 0.12);
-  --red:           #f85149;
-  --red-muted:     rgba(248, 81, 73, 0.12);
-  --blue:          #58a6ff;
-  --blue-muted:    rgba(88, 166, 255, 0.12);
-  --purple:        #bc8cff;
-  --purple-muted:  rgba(188, 140, 255, 0.12);
+  --green:         #2ea043;
+  --green-muted:   rgba(46, 160, 67, 0.12);
+  --amber:         #d29922;
+  --amber-muted:   rgba(210, 153, 34, 0.12);
+  --red:           #da3633;
+  --red-muted:     rgba(218, 54, 51, 0.12);
+  --blue:          #0969da;
+  --blue-muted:    rgba(9, 105, 218, 0.12);
+  --purple:        #8250df;
+  --purple-muted:  rgba(130, 80, 223, 0.12);
 
   /* Surfaces */
-  --bg:         #0d1117;
-  --surface:    #161b22;
-  --surface-2:  #1c2128;
-  --surface-3:  #21262d;
+  --bg:         #fcfbf8;
+  --surface:    #ffffff;
+  --surface-2:  #f5f4ef;
+  --surface-3:  #ebe9e1;
 
   /* Borders */
-  --border:       #30363d;
-  --border-muted: #21262d;
+  --border:       #e2dfd3;
+  --border-muted: #efede4;
   --border-focus: var(--primary);
 
   /* Text */
-  --text:       #e6edf3;
-  --text-muted: #7d8590;
-  --text-dim:   #484f58;
+  --text:       #2e2b26;
+  --text-muted: #6b665c;
+  --text-dim:   #969185;
 
   /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
-  --shadow:    0 4px 16px rgba(0,0,0,0.5);
-  --shadow-lg: 0 10px 36px rgba(0,0,0,0.65);
-  --shadow-xl: 0 20px 60px rgba(0,0,0,0.75);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow:    0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 10px 36px rgba(0,0,0,0.12);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.16);
 
   /* Spacing scale */
   --sp-1:  4px;
@@ -65,7 +65,7 @@
   --t: 150ms ease;
   --t-slow: 250ms ease;
 
-  color-scheme: dark;
+  color-scheme: light;
   font-family: var(--font);
   color: var(--text);
   text-rendering: optimizeLegibility;
