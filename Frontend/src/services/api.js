@@ -9,6 +9,35 @@ const api = axios.create({
     },
 });
 
+// Attach the saved token to every request
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem('chairsync_token');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
+
+// If the token is invalid/expired, clear it and send the user back to login
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+            localStorage.removeItem('chairsync_token');
+            if (window.location.pathname !== '/login') {
+                window.location.href = '/login';
+            }
+        }
+        return Promise.reject(error);
+    }
+);
+
+export const authService = {
+    login: (email, password) => api.post('/auth/login', { email, password }),
+    forgotPassword: (email) => api.post('/auth/forgot-password', { email }),
+    resetPassword: (token, newPassword) => api.post('/auth/reset-password', { token, newPassword }),
+};
+
 export const customerService = {
     getCustomers: () => api.get('/customer'),
     getWaitingCustomers: () => api.get('/customer/waiting'),

@@ -14,6 +14,8 @@ namespace Backend.Data
 
         public DbSet<Customer> Customers { get; set; }
 
+        public DbSet<AdminUser> Admins { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Chair>().HasData(

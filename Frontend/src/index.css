@@ -189,18 +189,23 @@ a {
     }
 
 .chair-card {
-    border-radius: 12px;
-    color: #fff;
-    transition: transform var(--t), box-shadow var(--t);
+    border-radius: var(--r-lg);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    transition: transform var(--t), box-shadow var(--t), border-color var(--t);
+    color: var(--text);
 }
 
-    .chair-card.available { /* fallback */
+    .chair-card.available { 
+        border-color: var(--border-muted);
     }
 
-    .chair-card.occupied { /* fallback */
+    .chair-card.occupied { 
+        border-color: var(--primary);
+        box-shadow: 0 0 10px var(--primary-ring);
     }
 
     .chair-card:hover {
-        transform: translateY(-6px);
-        box-shadow: var(--shadow-lg);
+        transform: translateY(-4px);
+        box-shadow: var(--shadow);
     }

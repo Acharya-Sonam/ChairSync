@@ -7,5 +7,7 @@ namespace Backend.Models
         public string ChairNumber { get; set; } = string.Empty;
 
         public bool IsOccupied { get; set; }
+
+        public DateTime? OccupiedSince { get; set; }
     }
 }

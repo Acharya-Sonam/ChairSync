@@ -1,5 +1,6 @@
 using Backend.Data;
 using Backend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,7 @@ namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class CustomerController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -51,6 +53,7 @@ namespace Backend.Controllers
                 return NotFound();
 
             chair.IsOccupied = true;
+            chair.OccupiedSince = DateTime.UtcNow;
 
             customer.Status = "In Service";
             customer.ChairId = chairId;
@@ -72,7 +75,10 @@ namespace Backend.Controllers
                 var chair = await _context.Chairs.FindAsync(customer.ChairId);
 
                 if (chair != null)
+                {
                     chair.IsOccupied = false;
+                    chair.OccupiedSince = null;
+                }
             }
 
             customer.Status = "Completed";

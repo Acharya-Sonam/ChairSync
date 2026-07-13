@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const navItems = [
     {
@@ -35,10 +35,27 @@ const navItems = [
                 <path d="M16 3.13a4 4 0 0 1 0 7.75" />
             </svg>
         )
+    },
+    {
+        to: "/status",
+        label: "Chair Status",
+        icon: (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+            </svg>
+        )
     }
 ];
 
 function Sidebar() {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("chairsync_token");
+        navigate("/login");
+    };
+
     return (
         <div className="sidebar">
             {/* Logo / Brand */}
@@ -71,6 +88,9 @@ function Sidebar() {
                     <span className="status-dot" />
                     <span>System Online</span>
                 </div>
+                <button className="sidebar-logout" onClick={handleLogout}>
+                    Logout
+                </button>
             </div>
         </div>
     );

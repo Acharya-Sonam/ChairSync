@@ -15,6 +15,34 @@ function StatCard({ label, value, icon, color, glow }) {
     );
 }
 
+function Timer({ startTime }) {
+    const [elapsed, setElapsed] = useState('');
+
+    useEffect(() => {
+        if (!startTime) return;
+        const updateTimer = () => {
+            const start = new Date(startTime).getTime();
+            const now = new Date().getTime();
+            const diff = now - start;
+
+            if (diff < 0) {
+                setElapsed('00:00');
+                return;
+            }
+
+            const minutes = Math.floor(diff / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            setElapsed(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
+        };
+
+        updateTimer();
+        const interval = setInterval(updateTimer, 1000);
+        return () => clearInterval(interval);
+    }, [startTime]);
+
+    return <span className="chair-timer" style={{ fontWeight: 'bold', color: '#ff6b6b' }}>{elapsed}</span>;
+}
+
 function Dashboard() {
     const [chairs, setChairs] = useState([]);
     const [customers, setCustomers] = useState([]);
@@ -128,6 +156,11 @@ function Dashboard() {
                                         <h3 className="customer-name">{activeCustomer.name}</h3>
                                         <p className="customer-service">{activeCustomer.service}</p>
                                         <p className="customer-token">Token #{activeCustomer.tokenNumber}</p>
+                                        {chair.occupiedSince && (
+                                            <p className="customer-timer" style={{ marginTop: '5px', fontSize: '14px' }}>
+                                                Time: <Timer startTime={chair.occupiedSince} />
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                             ) : (

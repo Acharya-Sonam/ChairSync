@@ -72,7 +72,7 @@ function Customers() {
                         <label className="form-label">Customer Name</label>
                         <input
                             type="text"
-                            placeholder="e.g. Sonam Acharya"
+                            placeholder="e.g. John Doe"
                             className="input-field"
                             value={newCustomer.name}
                             onChange={(e) => setNewCustomer({ ...newCustomer, name: e.target.value })}
