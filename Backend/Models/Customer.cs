@@ -12,6 +12,8 @@ namespace Backend.Models
 
         public string Service { get; set; } = string.Empty;
 
+        public decimal Price { get; set; }
+
         public string Status { get; set; } = "Waiting";
 
         public int? ChairId { get; set; }

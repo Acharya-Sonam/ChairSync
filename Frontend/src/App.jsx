@@ -9,6 +9,7 @@ import Queue from "./components/pages/Queue";
 import Customers from "./components/pages/Customers";
 import ChairStatusBoard from "./components/pages/ChairStatusBoard";
 import Login from "./components/pages/Login";
+import Register from "./components/pages/Register";
 import ForgotPassword from "./components/pages/ForgotPassword";
 import ResetPassword from "./components/pages/ResetPassword";
 
@@ -37,6 +38,7 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
 

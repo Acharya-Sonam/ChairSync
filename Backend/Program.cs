@@ -72,17 +72,21 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Seed the single admin user if one doesn't exist yet
+// Seed the single Admin account if one doesn't exist yet.
+// This is the ONLY way an Admin account is ever created — the public
+// /auth/register endpoint always creates "Staff" accounts, never "Admin".
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    if (!db.Admins.Any())
+    if (!db.Users.Any(u => u.Role == "Admin"))
     {
         var seed = builder.Configuration.GetSection("AdminSeed");
-        db.Admins.Add(new AdminUser
+        db.Users.Add(new User
         {
+            Name = "Owner",
             Email = seed["Email"]!,
-            PasswordHash = PasswordHasher.Hash(seed["Password"]!)
+            PasswordHash = PasswordHasher.Hash(seed["Password"]!),
+            Role = "Admin"
         });
         db.SaveChanges();
     }

@@ -14,7 +14,7 @@ namespace Backend.Data
 
         public DbSet<Customer> Customers { get; set; }
 
-        public DbSet<AdminUser> Admins { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

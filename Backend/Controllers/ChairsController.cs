@@ -25,8 +25,37 @@ namespace Backend.Controllers
             return await _context.Chairs.ToListAsync();
         }
 
+        // GET: api/chairs/board — chairs plus whichever customer currently occupies each one
+        [HttpGet("board")]
+        public async Task<ActionResult<IEnumerable<object>>> GetChairBoard()
+        {
+            var chairs = await _context.Chairs.ToListAsync();
+            var activeCustomers = await _context.Customers
+                .Where(c => c.Status == "In Service" && c.ChairId != null)
+                .ToListAsync();
+
+            var board = chairs.Select(chair =>
+            {
+                var customer = activeCustomers.FirstOrDefault(c => c.ChairId == chair.Id);
+                return new
+                {
+                    chair.Id,
+                    chair.ChairNumber,
+                    chair.IsOccupied,
+                    chair.OccupiedSince,
+                    CustomerId = customer?.Id,
+                    CustomerName = customer?.Name,
+                    Service = customer?.Service,
+                    Price = customer?.Price
+                };
+            });
+
+            return Ok(board);
+        }
+
         // POST: api/chairs
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Chair>> AddChair(Chair chair)
         {
             _context.Chairs.Add(chair);
@@ -52,6 +81,7 @@ namespace Backend.Controllers
 
         // DELETE: api/chairs/1
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteChair(int id)
         {
             var chair = await _context.Chairs.FindAsync(id);

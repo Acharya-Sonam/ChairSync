@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { authService } from "../../services/api";
 
 const navItems = [
@@ -51,6 +52,11 @@ const navItems = [
 
 function Sidebar() {
     const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        authService.me().then((res) => setUser(res.data)).catch(() => setUser(null));
+    }, []);
 
     const handleLogout = async () => {
         try {
@@ -89,6 +95,14 @@ function Sidebar() {
             </nav>
 
             <div className="sidebar-footer">
+                {user && (
+                    <div className="sidebar-status" style={{ marginBottom: 8 }}>
+                        <span>{user.name}</span>
+                        <span className={`badge ${user.role === "Admin" ? "badge-amber" : "badge-blue"}`} style={{ marginLeft: 6 }}>
+                            {user.role}
+                        </span>
+                    </div>
+                )}
                 <div className="sidebar-status">
                     <span className="status-dot" />
                     <span>System Online</span>

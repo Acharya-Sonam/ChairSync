@@ -14,7 +14,7 @@ namespace Backend.Services
             _config = config;
         }
 
-        public string GenerateToken(string email)
+        public string GenerateToken(string email, string role)
         {
             var jwtSettings = _config.GetSection("Jwt");
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!));
@@ -24,7 +24,8 @@ namespace Backend.Services
             {
                 new Claim(JwtRegisteredClaimNames.Sub, email),
                 new Claim(JwtRegisteredClaimNames.Email, email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Role, role)
             };
 
             var expiryMinutes = double.Parse(jwtSettings["ExpiryMinutes"] ?? "480"); // default 8 hours
