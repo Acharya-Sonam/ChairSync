@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { authService } from "../../services/api";
 
 const navItems = [
     {
@@ -51,8 +52,12 @@ const navItems = [
 function Sidebar() {
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        localStorage.removeItem("chairsync_token");
+    const handleLogout = async () => {
+        try {
+            await authService.logout();
+        } catch (err) {
+            // Even if the request fails, still send the user to login
+        }
         navigate("/login");
     };
 

@@ -14,8 +14,7 @@ function Login() {
         setError("");
         setLoading(true);
         try {
-            const res = await authService.login(email, password);
-            localStorage.setItem("chairsync_token", res.data.token);
+            await authService.login(email, password);
             navigate("/");
         } catch (err) {
             setError(err.response?.data?.message || "Login failed. Please try again.");
@@ -36,7 +35,7 @@ function Login() {
                     <input
                         type="email"
                         className="input-field"
-                        placeholder="owner@leadingedge.com"
+                        placeholder="owner@leaddingedge.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required

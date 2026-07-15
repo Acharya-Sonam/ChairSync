@@ -36,7 +36,32 @@ namespace Backend.Controllers
                 return Unauthorized(new { message = "Invalid email or password." });
 
             var token = _tokenService.GenerateToken(admin.Email);
-            return Ok(new { token, email = admin.Email });
+
+            Response.Cookies.Append("chairsync_auth", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = Request.IsHttps,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTimeOffset.UtcNow.AddMinutes(double.Parse(_config["Jwt:ExpiryMinutes"] ?? "480")),
+                Path = "/",
+            });
+
+            return Ok(new { email = admin.Email });
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("chairsync_auth", new CookieOptions { Path = "/" });
+            return Ok(new { message = "Logged out." });
+        }
+
+        [HttpGet("me")]
+        [Microsoft.AspNetCore.Authorization.Authorize]
+        public IActionResult Me()
+        {
+            var email = User.Identity?.Name ?? User.Claims.FirstOrDefault(c => c.Type.EndsWith("emailaddress") || c.Type == "sub")?.Value;
+            return Ok(new { email });
         }
 
         [HttpPost("forgot-password")]

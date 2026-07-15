@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { authService } from "./services/api";
 
 import Sidebar from "./components/layout/Sidebar";
 
@@ -11,8 +13,23 @@ import ForgotPassword from "./components/pages/ForgotPassword";
 import ResetPassword from "./components/pages/ResetPassword";
 
 function RequireAuth({ children }) {
-    const token = localStorage.getItem("chairsync_token");
-    return token ? children : <Navigate to="/login" replace />;
+    const [status, setStatus] = useState("checking"); // "checking" | "authed" | "guest"
+
+    useEffect(() => {
+        authService.me()
+            .then(() => setStatus("authed"))
+            .catch(() => setStatus("guest"));
+    }, []);
+
+    if (status === "checking") {
+        return (
+            <div className="page-loading">
+                <div className="spinner" />
+            </div>
+        );
+    }
+
+    return status === "authed" ? children : <Navigate to="/login" replace />;
 }
 
 function App() {
