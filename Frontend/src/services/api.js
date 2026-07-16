@@ -30,6 +30,11 @@ export const authService = {
     me: () => api.get('/auth/me'),
     forgotPassword: (email) => api.post('/auth/forgot-password', { email }),
     resetPassword: (token, newPassword) => api.post('/auth/reset-password', { token, newPassword }),
+    getPendingStaff: () => api.get('/auth/pending-staff'),
+    approveStaff: (id) => api.post(`/auth/approve/${id}`),
+    rejectStaff: (id) => api.post(`/auth/reject/${id}`),
+    getStaff: () => api.get('/auth/staff'),
+    deleteStaff: (id) => api.delete(`/auth/staff/${id}`),
 };
 
 export const customerService = {

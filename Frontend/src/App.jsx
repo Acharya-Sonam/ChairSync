@@ -12,15 +12,22 @@ import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
 import ForgotPassword from "./components/pages/ForgotPassword";
 import ResetPassword from "./components/pages/ResetPassword";
+import StaffApprovals from "./components/pages/StaffApprovals";
 
-function RequireAuth({ children }) {
-    const [status, setStatus] = useState("checking"); // "checking" | "authed" | "guest"
+function RequireAuth({ children, role }) {
+    const [status, setStatus] = useState("checking"); // "checking" | "authed" | "guest" | "forbidden"
 
     useEffect(() => {
         authService.me()
-            .then(() => setStatus("authed"))
+            .then((res) => {
+                if (role && res.data.role !== role) {
+                    setStatus("forbidden");
+                } else {
+                    setStatus("authed");
+                }
+            })
             .catch(() => setStatus("guest"));
-    }, []);
+    }, [role]);
 
     if (status === "checking") {
         return (
@@ -30,7 +37,9 @@ function RequireAuth({ children }) {
         );
     }
 
-    return status === "authed" ? children : <Navigate to="/login" replace />;
+    if (status === "guest") return <Navigate to="/login" replace />;
+    if (status === "forbidden") return <Navigate to="/" replace />;
+    return children;
 }
 
 function App() {
@@ -54,6 +63,14 @@ function App() {
                                         <Route path="/queue" element={<Queue />} />
                                         <Route path="/customers" element={<Customers />} />
                                         <Route path="/status" element={<ChairStatusBoard />} />
+                                        <Route
+                                            path="/staff-approvals"
+                                            element={
+                                                <RequireAuth role="Admin">
+                                                    <StaffApprovals />
+                                                </RequireAuth>
+                                            }
+                                        />
                                     </Routes>
                                 </div>
                             </div>

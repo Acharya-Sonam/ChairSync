@@ -3,17 +3,22 @@ import { authService } from "../../services/api";
 
 function StaffApprovals() {
     const [pending, setPending] = useState([]);
+    const [staff, setStaff] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [busyId, setBusyId] = useState(null);
 
     const load = useCallback(async () => {
         try {
-            const res = await authService.getPendingStaff();
-            setPending(res.data);
+            const [pendingRes, staffRes] = await Promise.all([
+                authService.getPendingStaff(),
+                authService.getStaff(),
+            ]);
+            setPending(pendingRes.data);
+            setStaff(staffRes.data);
             setError("");
         } catch (err) {
-            setError("Couldn't load pending staff requests.");
+            setError("Couldn't load staff data.");
         } finally {
             setLoading(false);
         }
@@ -42,6 +47,19 @@ function StaffApprovals() {
             setPending((prev) => prev.filter((u) => u.id !== id));
         } catch (err) {
             setError("Couldn't reject that account. Try again.");
+        } finally {
+            setBusyId(null);
+        }
+    };
+
+    const handleRemoveStaff = async (id, name) => {
+        if (!window.confirm(`Remove ${name}? They'll need to register again to regain access.`)) return;
+        setBusyId(id);
+        try {
+            await authService.deleteStaff(id);
+            setStaff((prev) => prev.filter((u) => u.id !== id));
+        } catch (err) {
+            setError("Couldn't remove that staff member. Try again.");
         } finally {
             setBusyId(null);
         }
@@ -99,6 +117,47 @@ function StaffApprovals() {
                                             onClick={() => handleReject(u.id)}
                                         >
                                             Reject
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+            </div>
+
+            <div className="page-header" style={{ marginTop: 32 }}>
+                <div>
+                    <h1 style={{ fontSize: 20 }}>Active Staff</h1>
+                    <p className="page-subtitle">Remove access for staff who no longer work here</p>
+                </div>
+            </div>
+
+            <div className="card glass-panel">
+                {staff.length === 0 ? (
+                    <div className="table-empty">No approved staff yet.</div>
+                ) : (
+                    <table className="customers-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {staff.map((u) => (
+                                <tr key={u.id}>
+                                    <td>{u.name}</td>
+                                    <td className="muted">{u.email}</td>
+                                    <td style={{ textAlign: "right" }}>
+                                        <button
+                                            className="btn-complete"
+                                            style={{ padding: "6px 14px" }}
+                                            disabled={busyId === u.id}
+                                            onClick={() => handleRemoveStaff(u.id, u.name)}
+                                        >
+                                            Remove
                                         </button>
                                     </td>
                                 </tr>

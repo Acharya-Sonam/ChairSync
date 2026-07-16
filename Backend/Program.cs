@@ -78,7 +78,9 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    if (!db.Users.Any(u => u.Role == "Admin"))
+    var admin = db.Users.FirstOrDefault(u => u.Role == "Admin");
+
+    if (admin == null)
     {
         var seed = builder.Configuration.GetSection("AdminSeed");
         db.Users.Add(new User
@@ -86,8 +88,15 @@ using (var scope = app.Services.CreateScope())
             Name = "Owner",
             Email = seed["Email"]!,
             PasswordHash = PasswordHasher.Hash(seed["Password"]!),
-            Role = "Admin"
+            Role = "Admin",
+            IsApproved = true
         });
+        db.SaveChanges();
+    }
+    else if (!admin.IsApproved)
+    {
+        // Existing admin row predates the IsApproved column — force it true.
+        admin.IsApproved = true;
         db.SaveChanges();
     }
 }

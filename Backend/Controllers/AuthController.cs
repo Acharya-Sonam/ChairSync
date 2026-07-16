@@ -55,14 +55,16 @@ namespace Backend.Controllers
                 Email = request.Email,
                 PasswordHash = PasswordHasher.Hash(request.Password),
                 Role = "Staff",
+                IsApproved = false,
             };
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            SignInWithCookie(user);
-
-            return Ok(new { email = user.Email, name = user.Name, role = user.Role });
+            return Ok(new
+            {
+                message = "Your account has been submitted. You'll be able to log in once the owner approves it."
+            });
         }
 
         [HttpPost("login")]
@@ -73,6 +75,9 @@ namespace Backend.Controllers
             // Same generic error whether the email or password is wrong — don't leak which one.
             if (user == null || !PasswordHasher.Verify(request.Password, user.PasswordHash))
                 return Unauthorized(new { message = "Invalid email or password." });
+
+            if (!user.IsApproved)
+                return StatusCode(403, new { message = "Your account is still pending approval from the shop owner." });
 
             SignInWithCookie(user);
 
@@ -135,6 +140,74 @@ namespace Backend.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Password has been reset. You can now log in." });
+        }
+
+        // --- Admin-only: manage pending staff approvals ---
+
+        [HttpGet("pending-staff")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetPendingStaff()
+        {
+            var pending = await _context.Users
+                .Where(u => u.Role == "Staff" && !u.IsApproved)
+                .Select(u => new { u.Id, u.Name, u.Email })
+                .ToListAsync();
+
+            return Ok(pending);
+        }
+
+        [HttpGet("staff")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetStaff()
+        {
+            var staff = await _context.Users
+                .Where(u => u.Role == "Staff" && u.IsApproved)
+                .Select(u => new { u.Id, u.Name, u.Email })
+                .ToListAsync();
+
+            return Ok(staff);
+        }
+
+        [HttpDelete("staff/{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteStaff(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null || user.Role != "Staff")
+                return NotFound();
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = $"{user.Name} has been removed." });
+        }
+
+        [HttpPost("approve/{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ApproveStaff(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null || user.Role != "Staff")
+                return NotFound();
+
+            user.IsApproved = true;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = $"{user.Name} has been approved." });
+        }
+
+        [HttpPost("reject/{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RejectStaff(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null || user.Role != "Staff")
+                return NotFound();
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Registration request removed." });
         }
 
         private void SignInWithCookie(User user)

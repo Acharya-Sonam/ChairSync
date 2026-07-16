@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { authService } from "../../services/api";
 
 function Register() {
@@ -8,7 +8,7 @@ function Register() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    const [submitted, setSubmitted] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -16,13 +16,30 @@ function Register() {
         setLoading(true);
         try {
             await authService.register(name, email, password);
-            navigate("/");
+            setSubmitted(true);
         } catch (err) {
             setError(err.response?.data?.message || "Registration failed. Please try again.");
         } finally {
             setLoading(false);
         }
     };
+
+    if (submitted) {
+        return (
+            <div className="auth-page">
+                <div className="card glass-panel auth-card">
+                    <h2 className="section-title">Request submitted</h2>
+                    <p className="page-subtitle" style={{ marginBottom: 16 }}>
+                        Your account has been sent to the shop owner for approval.
+                        You'll be able to log in once it's approved.
+                    </p>
+                    <Link to="/login" className="btn btn-primary" style={{ display: "block", textAlign: "center" }}>
+                        Back to login
+                    </Link>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="auth-page">

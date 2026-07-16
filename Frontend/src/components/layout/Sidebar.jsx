@@ -67,6 +67,23 @@ function Sidebar() {
         navigate("/login");
     };
 
+    const items = user?.role === "Admin"
+        ? [
+            ...navItems,
+            {
+                to: "/staff-approvals",
+                label: "Staff Approvals",
+                icon: (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="8.5" cy="7" r="4" />
+                        <polyline points="17 11 19 13 23 9" />
+                    </svg>
+                )
+            }
+        ]
+        : navItems;
+
     return (
         <div className="sidebar">
             {/* Logo / Brand */}
@@ -81,7 +98,7 @@ function Sidebar() {
             <div className="sidebar-divider" />
 
             <nav className="sidebar-nav">
-                {navItems.map((item) => (
+                {items.map((item) => (
                     <NavLink
                         key={item.to}
                         to={item.to}
