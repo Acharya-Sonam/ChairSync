@@ -4,7 +4,7 @@ import { authService } from "../../services/api";
 
 const navItems = [
     {
-        to: "/",
+        to: "/app",
         label: "Dashboard",
         end: true,
         icon: (
@@ -15,7 +15,7 @@ const navItems = [
         )
     },
     {
-        to: "/queue",
+        to: "/app/queue",
         label: "Queue",
         icon: (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -27,7 +27,7 @@ const navItems = [
         )
     },
     {
-        to: "/customers",
+        to: "/app/customers",
         label: "Customers",
         icon: (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -39,7 +39,7 @@ const navItems = [
         )
     },
     {
-        to: "/status",
+        to: "/app/status",
         label: "Chair Status",
         icon: (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -71,7 +71,7 @@ function Sidebar() {
         ? [
             ...navItems,
             {
-                to: "/staff-approvals",
+                to: "/app/staff-approvals",
                 label: "Staff Approvals",
                 icon: (
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

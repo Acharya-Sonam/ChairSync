@@ -4,6 +4,7 @@ import { authService } from "./services/api";
 
 import Sidebar from "./components/layout/Sidebar";
 
+import Landing from "./components/pages/Landing";
 import Dashboard from "./components/pages/Dashboard";
 import Queue from "./components/pages/Queue";
 import Customers from "./components/pages/Customers";
@@ -38,7 +39,7 @@ function RequireAuth({ children, role }) {
     }
 
     if (status === "guest") return <Navigate to="/login" replace />;
-    if (status === "forbidden") return <Navigate to="/" replace />;
+    if (status === "forbidden") return <Navigate to="/app" replace />;
     return children;
 }
 
@@ -46,13 +47,14 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
+                <Route path="/" element={<Landing />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
 
                 <Route
-                    path="/*"
+                    path="/app/*"
                     element={
                         <RequireAuth>
                             <div className="app-container">

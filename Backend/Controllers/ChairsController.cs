@@ -18,6 +18,19 @@ namespace Backend.Controllers
             _context = context;
         }
 
+        // GET: api/chairs/public — no auth required. Only free/occupied status,
+        // no customer names, for the public landing page.
+        [HttpGet("public")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<object>>> GetPublicChairStatus()
+        {
+            var chairs = await _context.Chairs
+                .Select(c => new { c.Id, c.ChairNumber, c.IsOccupied })
+                .ToListAsync();
+
+            return Ok(chairs);
+        }
+
         // GET: api/chairs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Chair>>> GetChairs()
