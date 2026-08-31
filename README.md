@@ -68,7 +68,6 @@ ChairSync provides a digital solution that enables staff to monitor chair availa
 - Swagger Documentation
 
 ---
-
 # 🛠 Tech Stack
 
 ## Frontend
